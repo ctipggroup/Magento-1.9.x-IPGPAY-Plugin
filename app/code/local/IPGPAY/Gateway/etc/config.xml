@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<!--
+  ~ @copyright Copyright (c) 2002 - 2017 IPG Group Limited (a company incorporated in the SAR of Hong Kong).
+  ~ All rights reserved. Use is strictly subject to licence terms & conditions.
+  ~ This computer software programme is protected by copyright law and international treaties.
+  ~ Unauthorised reproduction, reverse engineering or distribution of the programme, or any part of it, may
+  ~ result in severe civil and criminal penalties and will be prosecuted to the maximum extent permissible at law.
+  ~ for further information, please contact the copyright owner by email copyright@ipggroup.com
+  -->
+
+<config>
+    <modules>
+        <IPGPAY_Gateway>
+            <version>0.1.0</version>
+        </IPGPAY_Gateway>
+    </modules>
+    <frontend>
+        <routers>
+            <gateway>
+                <use>standard</use>
+                <args>
+                    <module>IPGPAY_Gateway</module>
+                    <frontName>ipgpay</frontName>
+                </args>
+            </gateway>
+        </routers>
+    </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <IPGPAY_Gateway_Adminhtml before="Mage_Adminhtml">IPGPAY_Gateway_Adminhtml</IPGPAY_Gateway_Adminhtml>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <paymentgateway>
+                                            <title>Gateway</title>
+                                        </paymentgateway>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>   
+    <global>
+        <models>
+            <paymentgateway>
+                <class>IPGPAY_Gateway_Model</class>
+            </paymentgateway>
+        </models>
+        <blocks>
+            <paymentgateway>
+                <class>IPGPAY_Gateway_Block</class>
+            </paymentgateway>
+            <adminhtml>
+                <rewrite>
+                    <sales_order_view>IPGPAY_Gateway_Block_Order_View</sales_order_view>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+        <helpers>
+            <paymentgateway>
+                <class>IPGPAY_Gateway_Helper</class>
+            </paymentgateway>
+        </helpers>
+    </global>
+
+    <default>
+        <payment>
+            <paymentgateway>
+                <model>paymentgateway/standard</model>
+                <active>1</active>
+                <title>Credit Card (IPGPAY)</title>
+                <payment_form_url></payment_form_url>
+                <payment_form_id>2</payment_form_id>
+                <secret_key></secret_key>
+                <request_expiry>24</request_expiry>
+                <account_id></account_id>
+                <api_key></api_key>
+                <api_base_url></api_base_url>
+                <test_mode>1</test_mode>
+                <order_status>pending</order_status>
+                <create_customers>0</create_customers>
+                <merchant_rebilling>0</merchant_rebilling>
+                <payment_action>redirect</payment_action>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+            </paymentgateway>
+        </payment>
+    </default>
+</config>
