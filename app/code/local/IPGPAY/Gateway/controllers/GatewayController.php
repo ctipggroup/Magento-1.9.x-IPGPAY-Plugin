@@ -87,7 +87,7 @@ class IPGPAY_Gateway_GatewayController extends Mage_Core_Controller_Front_Action
     /**
      * Customer will be returned here if returning from payment form
      */
-    public function cancelAction()
+    public function returnAction()
     {
         $this->_redirect('checkout/cart');
     }
