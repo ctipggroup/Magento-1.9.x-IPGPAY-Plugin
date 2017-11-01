@@ -83,6 +83,14 @@ class IPGPAY_Gateway_GatewayController extends Mage_Core_Controller_Front_Action
 
         $this->_redirect('checkout/cart');
     }
+    
+    /**
+     * Customer will be returned here if returning from payment form
+     */
+    public function cancelAction()
+    {
+        $this->_redirect('checkout/cart');
+    }
 
     /**
      * Handle notifications from the IPGPAY gateway
@@ -502,6 +510,7 @@ class IPGPAY_Gateway_GatewayController extends Mage_Core_Controller_Front_Action
 
         $url_success = Mage::helper('adminhtml')->getUrl('ipgpay/gateway/success');
         $url_decline = Mage::helper('adminhtml')->getUrl('ipgpay/gateway/cancel');
+        $url_return = Mage::helper('adminhtml')->getUrl('ipgpay/gateway/return');
 
         $client_id = Mage::getStoreConfig('payment/paymentgateway/account_id');
         $test_transaction = Mage::getStoreConfig('payment/paymentgateway/test_mode') == '1' ? '1' : '0';
@@ -515,7 +524,7 @@ class IPGPAY_Gateway_GatewayController extends Mage_Core_Controller_Front_Action
 
         return [
             'client_id' => $client_id,
-            'return_url' => $url_decline, // return to the shop before compeleting purchase
+            'return_url' => $url_return,
             'approval_url' => $url_success,
             'decline_url' => $url_decline,
             'test_transaction' => $test_transaction,
